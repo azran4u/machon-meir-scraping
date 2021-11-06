@@ -1,6 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { startBrowser } from "./scraping/browser";
-import { scrapeAll } from "./scraping/controller";
+import { Inject, Injectable } from "@nestjs/common";
+import { WINSTON_MODULE_PROVIDER } from "nest-winston";
+import { Logger } from "winston";
+import { startScrapping } from "./scraping/controller";
 
 @Injectable()
 export class AppService {
@@ -8,14 +9,11 @@ export class AppService {
     return "Hello world!";
   }
 
+  constructor(@Inject(WINSTON_MODULE_PROVIDER) private logger: Logger) {}
+
   async scrap() {
     const url = "https://meirtv.com/beth-hamidrash-search/?_rabbis=3988";
-
-    //Start the browser and create a browser instance
-    let browserInstance = await startBrowser();
-
-    // Pass the browser instance to the scraper controller
-    const res = await scrapeAll(url, browserInstance);
+    const res = await startScrapping(url, this.logger);
     console.log(res);
   }
 }

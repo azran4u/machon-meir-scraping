@@ -1,18 +1,23 @@
-import { utilities as nestWinstonModuleUtilities } from "nest-winston";
-import * as winston from "winston";
+import { format, Logger, LoggerOptions, transports } from "winston";
 import { AppConfigService } from "../config";
+const { combine, timestamp, label, printf } = format;
+
+const myFormat = printf(({ level, message, timestamp, service }) => {
+  return `${timestamp} [${service}] ${level}: ${message}`;
+});
 
 export function loggerOptionsFactory(configService: AppConfigService) {
-  const options: winston.LoggerOptions = {
+  const options: LoggerOptions = {
     level: configService.getConfig().logger.level ?? "info",
-    format: winston.format.json(),
+    format: format.json(),
     defaultMeta: { service: "app" } as LoggerMetadata,
     transports: [
-      new winston.transports.Console({
-        format: winston.format.combine(
-          winston.format.timestamp(),
-          winston.format.ms(),          
-          nestWinstonModuleUtilities.format.nestLike("MyApp")
+      new transports.Console({
+        format: format.combine(
+          format.timestamp(),
+          myFormat
+          // winston.format.ms(),
+          // nestWinstonModuleUtilities.format.nestLike("MyApp")
         ),
       }),
     ],
@@ -24,7 +29,7 @@ export interface LoggerMetadata {
   service: string;
 }
 
-export function childLogger(logger: winston.Logger, metadata: LoggerMetadata) {
+export function childLogger(logger: Logger, metadata: LoggerMetadata) {
   const child = logger.child({});
   child.defaultMeta = { ...logger.defaultMeta, ...metadata };
   return child;
