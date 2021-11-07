@@ -1,4 +1,4 @@
-export function convertDate(date: string) {
+export function convertDate(date: string): Date | undefined {
   const [hebrewMonth, stringDay, stringYear] = date
     .substring(date.indexOf(`(`) + 1, date.indexOf(`)`))
     .replace(`,`, "")
@@ -6,7 +6,14 @@ export function convertDate(date: string) {
   const month = convertMonthToNumber(hebrewMonth);
   const day = +stringDay;
   const year = +stringYear;
-  return new Date(year, month, day, 0, 0, 0, 0);
+  let res: Date;
+  try {
+    res = new Date(year, month, day, 0, 0, 0, 0);
+    return res;
+  } catch (error) {
+    console.error(`could not parse date ${date}`);
+    return undefined;
+  }
 }
 export function convertMonthToNumber(month: string) {
   const convertMonth = new Map<string, number>();
@@ -23,6 +30,6 @@ export function convertMonthToNumber(month: string) {
   convertMonth.set("נובמבר", 10);
   convertMonth.set("דצמבר", 11);
   const res = convertMonth.get(month);
-  if (!res) return 0;
+  if (!res) return -1;
   return res;
 }

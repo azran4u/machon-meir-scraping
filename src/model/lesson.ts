@@ -5,4 +5,6 @@ export interface Lesson {
   date: Date;
   tags: string[];
   mediaUrl: string;
+  updatedAt: Date;
+  valid: boolean;
 }
