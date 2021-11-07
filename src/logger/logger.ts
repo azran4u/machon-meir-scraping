@@ -1,6 +1,6 @@
 import { format, Logger, LoggerOptions, transports } from "winston";
 import { AppConfigService } from "../config";
-const { combine, timestamp, label, printf } = format;
+const { combine, timestamp, printf, colorize } = format;
 
 const myFormat = printf(({ level, message, timestamp, service }) => {
   return `${timestamp} [${service}] ${level}: ${message}`;
@@ -13,12 +13,7 @@ export function loggerOptionsFactory(configService: AppConfigService) {
     defaultMeta: { service: "app" } as LoggerMetadata,
     transports: [
       new transports.Console({
-        format: format.combine(
-          format.timestamp(),
-          myFormat
-          // winston.format.ms(),
-          // nestWinstonModuleUtilities.format.nestLike("MyApp")
-        ),
+        format: combine(timestamp(), colorize(), myFormat),
       }),
     ],
   };

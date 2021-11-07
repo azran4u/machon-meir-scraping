@@ -13,8 +13,8 @@ async function bootstrap() {
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   const config = app.get(AppConfigService).getConfig();
   const logger = app.get<Logger>(WINSTON_MODULE_PROVIDER);
-  logger.info(`Start scraping`);  
+  logger.info(`Start app`);
   const appService = app.get(AppService);
-  await appService.scrap();
+  await appService.start();
 }
 bootstrap();

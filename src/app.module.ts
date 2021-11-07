@@ -3,6 +3,7 @@ import { WinstonModule } from "nest-winston";
 import { AppService } from "./app.service";
 import { AppConfigModule, AppConfigService } from "./config";
 import { loggerOptionsFactory } from "./logger/logger";
+import { ScrapModule } from './scrap/scrap.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { loggerOptionsFactory } from "./logger/logger";
       },
       inject: [AppConfigService],
     }),
+    ScrapModule,
   ],
   providers: [AppService]
 })
