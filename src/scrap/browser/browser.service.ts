@@ -4,12 +4,13 @@ import { Logger } from "winston";
 import * as puppeteer from "puppeteer";
 import { Browser } from "puppeteer";
 
-
 @Injectable()
 export class BrowserService {
   private browser: Browser = undefined;
 
-  constructor(@Inject(WINSTON_MODULE_PROVIDER) private logger: Logger) {}
+  constructor(@Inject(WINSTON_MODULE_PROVIDER) private logger: Logger) {
+    this.logger.info(`start BrowserService`);
+  }
 
   public async getBrowser() {
     if (this.browser) return this.browser;

@@ -1,5 +1,3 @@
-import { ConfigFactory } from "@nestjs/config";
-
 export interface ScrapConfig {
   filepath: string;
   rabbiUrl: string;
