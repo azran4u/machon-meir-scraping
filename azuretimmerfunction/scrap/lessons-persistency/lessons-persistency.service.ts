@@ -4,19 +4,17 @@ import { Logger } from "winston";
 import { promises as fs } from "fs";
 import { Lesson } from "../../model/lesson";
 import { Scrap } from "../../model/scrap";
-import { Configuration } from "../../config/config.factory";
-import { AppConfigService } from "../../config/config.service";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class LessonsPersistencyService {
-  private config: Configuration;
   private path: string;
   constructor(
-    @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger,
-    private configService: AppConfigService
+    private config: ConfigService,
+    @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger
   ) {
-    this.config = this.configService.getConfig();
-    this.path = this.config.scrap.filepath;
+    this.logger.info(`start LessonsPersistencyService`);
+    this.path = this.config.get("scrap.filepath", { infer: true });
   }
 
   public async readLessonsFromFile(): Promise<Lesson[]> {

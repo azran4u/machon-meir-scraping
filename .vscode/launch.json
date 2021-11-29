@@ -9,7 +9,7 @@
       "type": "node",
       "preLaunchTask": "build",
       "request": "launch",
-      "program": "${workspaceFolder}/dist/main.js",
+      "program": "${workspaceFolder}/dist/azuretimmerfunction/main.js",
       "sourceMaps": true,
       "console": "internalConsole",
       "internalConsoleOptions": "openOnFirstSessionStart"
@@ -25,6 +25,13 @@
       "sourceMaps": true,
       "console": "internalConsole",
       "internalConsoleOptions": "openOnFirstSessionStart"
+    },
+    {
+      "name": "Attach to Node Functions",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "preLaunchTask": "func: host start"
     }
   ]
 }

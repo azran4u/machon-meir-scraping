@@ -1,14 +1,13 @@
 import { format, Logger, LoggerOptions, transports } from "winston";
-import { AppConfigService } from "../config";
 const { combine, timestamp, printf, colorize } = format;
 
 const myFormat = printf(({ level, message, timestamp, service }) => {
   return `${timestamp} [${service}] ${level}: ${message}`;
 });
 
-export function loggerOptionsFactory(configService: AppConfigService) {
+export function loggerOptionsFactory(level: string) {
   const options: LoggerOptions = {
-    level: configService.getConfig().logger.level ?? "info",
+    level: level ?? "info",
     format: format.json(),
     defaultMeta: { service: "app" } as LoggerMetadata,
     transports: [
