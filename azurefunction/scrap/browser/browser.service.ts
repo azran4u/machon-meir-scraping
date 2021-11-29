@@ -14,6 +14,8 @@ export class BrowserService {
       this.logger.info("Opening the browser......");
       this.browser = await puppeteer.launch({
         headless: true,
+        timeout: 60000,
+        devtools: true,
         args: ["--disable-setuid-sandbox"],
         ignoreHTTPSErrors: true,
       });

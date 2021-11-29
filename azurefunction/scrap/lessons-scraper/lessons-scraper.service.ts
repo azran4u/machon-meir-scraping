@@ -26,7 +26,6 @@ export class LessonsScraperService {
     try {
       const lessons: Lesson[] =
         await this.lessonsPersistencyService.readLessonsFromFile();
-      // await updateLessons(lessons);
       const pageUrls = await this.rabbiPagination(this.url);
       for (let page of pageUrls) {
         const lessonsUrls = await this.extractLessonsUrlsFromRabbiPage(page);
@@ -46,6 +45,7 @@ export class LessonsScraperService {
       }
       const browser = await this.browserService.getBrowser();
       await browser.close();
+      this.logger.info(`lessons count is ${lessons.length}`);
     } catch (err) {
       this.logger.error("Could not resolve the browser instance => ", err);
     }
@@ -61,6 +61,11 @@ export class LessonsScraperService {
         this.logger.info(`open url ${url}`);
         const browser = await this.browserService.getBrowser();
         let page = await browser.newPage();
+        await page.setExtraHTTPHeaders({
+          "Accept-Language": "he-IL,he;q=0.9,en-US;q=0.8,en;q=0.7",
+          "User-Agent":
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+        });
         await page.goto(url);
         const res = await f(page);
         await page.close();
@@ -85,7 +90,7 @@ export class LessonsScraperService {
 
   public async rabbiPagination(url: string) {
     return this.genericScrapper(url, async (page) => {
-      await page.waitForSelector(".jet-listing-grid__items[data-nav]");
+      await page.waitForSelector("a.facetwp-page.last"); //.jet-listing-grid__items[data-nav]
       const lastPageNumber = await page.$eval(
         "a.facetwp-page.last",
         (elm) => +elm["textContent"]
