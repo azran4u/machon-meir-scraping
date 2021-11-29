@@ -13,8 +13,6 @@ export class LessonsPersistencyService {
     // private configService: ConfigService,
     @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger
   ) {
-    this.logger.info(`start LessonsPersistencyService`);
-    // this.path = this.configService.get("scrap.filepath", { infer: true });
     this.path = configFactory().scrap.filepath;
   }
 

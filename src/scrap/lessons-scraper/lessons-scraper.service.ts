@@ -18,11 +18,8 @@ export class LessonsScraperService {
     private browserService: BrowserService,
     private lessonsPersistencyService: LessonsPersistencyService
   ) {
-    this.logger.info(`start LessonsScraperService`);
-    // this.url = this.configService.get("scrap.rabbiUrl", { infer: true });
     this.url = configFactory().scrap.rabbiUrl;
     this.retries = configFactory().scrap.retries;
-    this.logger.info(`start LessonsScraperService url = ${this.url}`);
   }
 
   public async scrapController() {

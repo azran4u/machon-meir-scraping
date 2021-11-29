@@ -6,9 +6,7 @@ import * as puppeteer from "puppeteer";
 export class BrowserService {
   private browser: puppeteer.Browser = undefined;
 
-  constructor(@Inject(WINSTON_MODULE_PROVIDER) private logger: Logger) {
-    this.logger.info(`start BrowserService`);
-  }
+  constructor(@Inject(WINSTON_MODULE_PROVIDER) private logger: Logger) {}
 
   public async getBrowser() {
     if (this.browser) return this.browser;
@@ -20,7 +18,7 @@ export class BrowserService {
         ignoreHTTPSErrors: true,
       });
     } catch (err) {
-      this.logger.error("Could not create a browser instance => : ", err);
+      this.logger.error("Could not create a browser instance ", err);
       process.exit();
     }
     return this.browser;
