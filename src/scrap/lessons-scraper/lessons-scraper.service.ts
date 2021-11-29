@@ -1,26 +1,27 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { WINSTON_MODULE_PROVIDER } from "nest-winston";
 import { Logger } from "winston";
-import { Configuration } from "../../config/config.factory";
+import { configFactory } from "../../config/config.factory";
 import { Page } from "puppeteer";
 import { BrowserService } from "../browser/browser.service";
 import * as _ from "lodash";
 import { Lesson } from "../../model/lesson";
 import { LessonsPersistencyService } from "../lessons-persistency/lessons-persistency.service";
-import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class LessonsScraperService {
-  private config: Configuration;
+  private retries: number;
   private url: string;
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger,
-    private configService: ConfigService,
+    // private configService: ConfigService,
     private browserService: BrowserService,
     private lessonsPersistencyService: LessonsPersistencyService
   ) {
     this.logger.info(`start LessonsScraperService`);
-    this.url = this.configService.get("scrap.rabbiUrl", { infer: true });
+    // this.url = this.configService.get("scrap.rabbiUrl", { infer: true });
+    this.url = configFactory().scrap.rabbiUrl;
+    this.retries = configFactory().scrap.retries;
     this.logger.info(`start LessonsScraperService url = ${this.url}`);
   }
 
@@ -55,9 +56,9 @@ export class LessonsScraperService {
 
   public async genericScrapper<T>(
     url: string,
-    f: (x: Page) => Promise<T>,
-    retries: number = this.config.scrap.retries
+    f: (x: Page) => Promise<T>
   ): Promise<T> {
+    const retries: number = this.retries;
     for (let i = 1; 1 <= retries; i++) {
       try {
         this.logger.info(`open url ${url}`);

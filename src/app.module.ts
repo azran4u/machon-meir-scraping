@@ -5,7 +5,6 @@ import { AppService } from "./app.service";
 import { loggerOptionsFactory } from "./logger/logger";
 import { configFactory } from "./config/config.factory";
 import { ScrapModule } from "./scrap/scrap.module";
-import { TestModule } from "./test/test.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,8 +21,7 @@ import { TestModule } from "./test/test.module";
       },
       inject: [ConfigService],
     }),
-    TestModule,
-    // ScrapModule,
+    ScrapModule,
   ],
   providers: [AppService],
 })

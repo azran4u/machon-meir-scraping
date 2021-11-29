@@ -9,7 +9,7 @@
       "type": "node",
       "preLaunchTask": "build",
       "request": "launch",
-      "program": "${workspaceFolder}/dist/azuretimmerfunction/main.js",
+      "program": "${workspaceFolder}/dist/main.js",
       "sourceMaps": true,
       "console": "internalConsole",
       "internalConsoleOptions": "openOnFirstSessionStart"

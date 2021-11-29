@@ -2,11 +2,9 @@ import { Inject, Injectable } from "@nestjs/common";
 import { WINSTON_MODULE_PROVIDER } from "nest-winston";
 import { Logger } from "winston";
 import * as puppeteer from "puppeteer";
-import { Browser } from "puppeteer";
-
 @Injectable()
 export class BrowserService {
-  private browser: Browser = undefined;
+  private browser: puppeteer.Browser = undefined;
 
   constructor(@Inject(WINSTON_MODULE_PROVIDER) private logger: Logger) {
     this.logger.info(`start BrowserService`);
@@ -23,7 +21,7 @@ export class BrowserService {
       });
     } catch (err) {
       this.logger.error("Could not create a browser instance => : ", err);
-      this.browser = undefined;
+      process.exit();
     }
     return this.browser;
   }
