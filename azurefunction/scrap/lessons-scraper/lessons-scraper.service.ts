@@ -31,7 +31,7 @@ export class LessonsScraperService {
         const lessonsUrls = await this.extractLessonsUrlsFromRabbiPage(page);
         for (let lessonUrl of lessonsUrls) {
           if (lessons.find((x) => x.url === lessonUrl)) {
-            this.logger.info(`${lessonUrl} already exists`);
+            this.logger.debug(`${lessonUrl} already exists`);
             continue;
           }
           const lesson = await this.lessonScarpper(lessonUrl);
@@ -65,6 +65,37 @@ export class LessonsScraperService {
           "Accept-Language": "he-IL,he;q=0.9,en-US;q=0.8,en;q=0.7",
           "User-Agent":
             "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+        });
+        await page.setRequestInterception(true);
+        const block_ressources = [
+          "image",
+          "stylesheet",
+          "media",
+          "font",
+          "texttrack",
+          "object",
+          "beacon",
+          "csp_report",
+          "imageset",
+          "xhr",
+          "other",
+          "ping",
+        ];
+        page.on("request", (request) => {
+          const resource = request.resourceType().trim().toLowerCase();
+          try {
+            if (block_ressources.includes(resource)) {
+              this.logger.debug(`skip ${resource}`);
+              request.abort();
+            } else {
+              this.logger.debug(`download resource ${resource}`);
+              request.continue();
+            }
+          } catch (error) {
+            this.logger.error(
+              `error handling resource ${resource} in url ${url} ${error}`
+            );
+          }
         });
         await page.goto(url);
         const res = await f(page);
