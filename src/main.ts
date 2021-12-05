@@ -11,8 +11,8 @@ import { AppService } from "./app.service";
 export async function createApp() {
   try {
     const app = await NestFactory.create(AppModule);
-    app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
     const logger = app.get<Logger>(WINSTON_MODULE_PROVIDER);
+    app.useLogger(logger);
     logger.info(`Start app`);
     const appService = app.get(AppService);
     return appService.start();
