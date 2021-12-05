@@ -14,7 +14,7 @@ export interface Configuration {
 export function configFactory(): Configuration {
   return {
     logger: {
-      level: process.env.LOGGER_LEVEL || "info",
+      level: process.env.LOGGER_LEVEL || "debug",
     },
     scrap: {
       filepath: process.env.SCRAP_FILEPATH || "./lessons.json",

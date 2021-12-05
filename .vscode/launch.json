@@ -5,28 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "debug",
-      "type": "node",
-      "preLaunchTask": "build",
-      "request": "launch",
-      "program": "${workspaceFolder}/dist/main.js",
-      "sourceMaps": true,
-      "console": "internalConsole",
-      "internalConsoleOptions": "openOnFirstSessionStart"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "name": "Debug Tests",
-      "program": "${workspaceRoot}/node_modules/.bin/jest",
-      "cwd": "${workspaceRoot}",
-      "args": ["--i", "--config", "jest.config.js"],
-      "sourceMaps": true,
-      "console": "internalConsole",
-      "internalConsoleOptions": "openOnFirstSessionStart"
-    },
-    {
       "name": "Attach to Node Functions",
       "type": "node",
       "request": "attach",

@@ -1,12 +1,12 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { WINSTON_MODULE_PROVIDER } from "nest-winston";
 import { Logger } from "winston";
-import { configFactory } from "../../config/config.factory";
 import { Page } from "puppeteer";
 import { BrowserService } from "../browser/browser.service";
 import * as _ from "lodash";
 import { Lesson } from "../../model/lesson";
 import { LessonsPersistencyService } from "../lessons-persistency/lessons-persistency.service";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class LessonsScraperService {
@@ -14,12 +14,13 @@ export class LessonsScraperService {
   private url: string;
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger,
-    // private configService: ConfigService,
+    private configService: ConfigService,
     private browserService: BrowserService,
     private lessonsPersistencyService: LessonsPersistencyService
   ) {
-    this.url = configFactory().scrap.rabbiUrl;
-    this.retries = configFactory().scrap.retries;
+    this.logger.info(`LessonsScraperService constructor`);
+    this.url = this.configService.get("scrap.rabbiUrl", { infer: true });
+    this.retries = this.configService.get("scrap.retries", { infer: true });
   }
 
   public async scrapController() {

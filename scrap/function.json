@@ -4,8 +4,8 @@
       "name": "myTimer",
       "type": "timerTrigger",
       "direction": "in",
-      "schedule": "0 0 0 * * 0"
+      "schedule": "0 */5 * * * *"
     }
   ],
-  "scriptFile": "../dist/index.js"
+  "scriptFile": "../dist/scrap/index.js"
 }

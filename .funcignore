@@ -4,4 +4,9 @@
 .vscode
 local.settings.json
 test
+src
+.eslintrc
+jest.config.js
+lessons.json
+README.md
 tsconfig.json

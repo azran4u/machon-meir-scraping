@@ -6,9 +6,11 @@ import { LessonsScraperService } from "./scrap/lessons-scraper/lessons-scraper.s
 @Injectable()
 export class AppService {
   constructor(
-    @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger,
-    private lessonsScraperService: LessonsScraperService
-  ) {}
+    private lessonsScraperService: LessonsScraperService,
+    @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger
+  ) {
+    this.logger.info(`AppService constructor`);
+  }
 
   async start() {
     try {
@@ -16,6 +18,7 @@ export class AppService {
       await this.lessonsScraperService.scrapController();
     } catch (error) {
       this.logger.error(`cannot start scrap controller ${error}`);
+      process.exit();
     }
   }
 }

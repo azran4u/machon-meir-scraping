@@ -1,22 +1,17 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
+    "target": "es6",
+    "rootDir": ".",
+    "outDir": "dist",
+    "sourceMap": true,
+    "strict": false,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": ".",
-    "incremental": true,
-    "skipLibCheck": true
+    "emitDecoratorMetadata": true,
+    "removeComments": true,
+    "declaration": true
   },
-  "include": [".", "node_modules/puppeteer-tsd/src/index.d.ts"]
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }
-
-// "moduleResolution": "node",
-//     "noUnusedLocals": true,
-//     "noUnusedParameters": true,
-// "exclude": ["node_modules", "dist"],

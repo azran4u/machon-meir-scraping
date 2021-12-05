@@ -1,10 +1,11 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { WINSTON_MODULE_PROVIDER } from "nest-winston";
 import { Logger } from "winston";
-import * as puppeteer from "puppeteer";
+import { Browser } from "puppeteer";
+const puppeteer = require("puppeteer");
 @Injectable()
 export class BrowserService {
-  private browser: puppeteer.Browser = undefined;
+  private browser: Browser = undefined;
 
   constructor(@Inject(WINSTON_MODULE_PROVIDER) private logger: Logger) {}
 

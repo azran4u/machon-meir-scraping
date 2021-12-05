@@ -1,5 +1,5 @@
 import { format, Logger, LoggerOptions, transports } from "winston";
-const { combine, timestamp, printf, colorize } = format;
+const { combine, timestamp, printf } = format;
 
 const myFormat = printf(({ level, message, timestamp, service }) => {
   return `${timestamp} [${service}] ${level}: ${message}`;
@@ -8,11 +8,10 @@ const myFormat = printf(({ level, message, timestamp, service }) => {
 export function loggerOptionsFactory(level: string) {
   const options: LoggerOptions = {
     level: level ?? "info",
-    format: format.json(),
     defaultMeta: { service: "app" } as LoggerMetadata,
     transports: [
       new transports.Console({
-        format: combine(timestamp(), colorize(), myFormat),
+        format: combine(timestamp(), myFormat),
       }),
     ],
   };
